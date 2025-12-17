@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WearFashion | Home</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+
+/* ---------------- THEME COLORS ---------------- */
+:root {
+    --cream: #f5eee6;
+    --beige: #e3c7a4;
+    --golden: #b88956;
+    --brown: #6b4226;
+    --darkbrown: #3d2313;
+}
+
+/* ---------------- GLOBAL ---------------- */
+body {
+    background: var(--cream);
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+    background: var(--golden) !important;
+    padding: 12px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar h2 {
+    color: var(--darkbrown);
+    font-weight: bold;
+    margin: 0;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.links a {
+    color: white !important;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.links a:hover {
+    color: var(--darkbrown) !important;
+    text-decoration: underline;
+}
+
+/* Search button */
+.btn-light {
+    background: var(--beige) !important;
+    color: var(--darkbrown) !important;
+    border: 1px solid var(--golden);
+}
+
+.btn-light:hover {
+    background: var(--golden) !important;
+    color: white !important;
+}
+
+/* ---------------- DROPDOWN ---------------- */
+.dropdown {
+    position: relative;
+    z-index: 9999;
+}
+
+.dropdown button {
+    background: var(--brown) !important;
+    border: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background: var(--beige);
+    top: 40px;
+    right: 0;
+    min-width: 150px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 99999;
+}
+
+.dropdown-content a {
+    color: var(--darkbrown) !important;
+    padding: 10px 15px;
+    display: block;
+    text-decoration: none;
+}
+
+.dropdown-content a:hover {
+    background: var(--golden) !important;
+    color: white !important;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ---------------- GRID + PRODUCT CARDS ---------------- */
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 9999;
+    pointer-events: auto;
+}
+
+
+.card {
+    width: 220px;
+    padding: 15px;
+    background: white;
+    border: 1px solid var(--beige);
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.2s ease-in-out;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.card h3 {
+    color: var(--darkbrown);
+}
+
+/* ---------------- BUTTON ---------------- */
+button, .btn-order {
+    background: var(--brown) !important;
+    color: white !important;
+    border-radius: 6px;
+}
+
+button:hover, .btn-order:hover {
+    background: var(--darkbrown) !important;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION BAR -->
+<nav class="navbar fixed-top" style="z-index: 9999;">
+
+    <h2>WearFashion</h2>
+
+    <!-- Search -->
+    <form class="d-flex" role="search" action="{% url 'search' %}" method="GET">
+        <input class="form-control me-2" type="search" placeholder="Search products..." name="q" style="width: 250px;">
+        <button class="btn btn-light" type="submit" style="font-weight:600;">Search</button>
+    </form>
+
+    <!-- Links -->
+    <div class="links">
+
+        <a href="/">Home</a>
+        <a href="/category/">Category</a>
+        <a href="/products/">Products</a>
+
+        <!-- ACCOUNT DROPDOWN -->
+        <div class="dropdown">
+            <button class="btn btn-primary">Account ▾</button>
+            <div class="dropdown-content">
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{% url 'login' %}">Login</a> 
+                <a href="/signup/">Signup</a>
+                <a href="/logout/">Logout</a>
+            </div>
+        </div>
+
+        <!-- ADMIN -->
+        {% if request.user.is_authenticated and request.user.is_staff %}
+            <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
+        {% endif %}
+
+        <a href="{% url 'cart' %}">Cart</a>
+
+    </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div style="margin-top: 90px;">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

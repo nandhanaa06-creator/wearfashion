@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+/* Golden–brown gradient background */
+.page-bg {
+    min-height: 100vh;
+    background: linear-gradient(145deg, #e3c7a4, #553616);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 0;
+}
+
+/* Center wrapper */
+.signup-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Golden theme card */
+.signup-card {
+    width: 380px;
+    background: var(--cream);
+    padding: 35px 28px;
+    border-radius: 18px;
+    border: 1px solid var(--beige);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    text-align: center;
+    margin: 100px 0;
+}
+
+/* Input fields with icons */
+.input-with-icon {
+    position: relative;
+    margin-top: 16px;
+}
+
+.input-with-icon i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: var(--brown);
+    font-size: 15px;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 13px 12px 13px 40px;
+    border-radius: 8px;
+    border: 1px solid #d8c4a8;
+    background: #fff8f1;
+    font-size: 15px;
+    color: var(--darkbrown);
+}
+
+.input-with-icon input:focus {
+    border-color: var(--brown);
+    outline: none;
+    background: #fff3e4;
+}
+
+/* Signup button */
+.signup-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--brown);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.signup-btn:hover {
+    background: var(--darkbrown);
+}
+
+/* Bottom text */
+.bottom-text {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--darkbrown);
+}
+
+.bottom-text a {
+    color: var(--brown);
+    font-weight: bold;
+}
+
+</style>
+
+
+<div class="page-bg">
+    <div class="signup-wrapper">
+        <div class="signup-card">
+
+            <h2 class="login-title" style="color: var(--darkbrown); font-weight: bold;">CREATE ACCOUNT</h2>
+            <p style="color:#6b4226; font-size:13px; margin-top:-5px;">Join ShopEase today</p>
+
+            <form method="POST">
+                {% csrf_token %}
+
+                <!-- Username -->
+                <div class="input-with-icon">
+                    <i class="fa fa-user"></i>
+                    <input type="text" name="username" placeholder="Username" required>
+                </div>
+
+                <!-- Email -->
+                <div class="input-with-icon">
+                    <i class="fa fa-envelope"></i>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <!-- Password -->
+                <div class="input-with-icon">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password1" placeholder="Password" required>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="input-with-icon">
+                    <i class="fa fa-lock"></i>
+                    <input type="password" name="password2" placeholder="Confirm Password" required>
+                </div>
+
+                <button type="submit" class="signup-btn">SIGN UP</button>
+            </form>
+
+            <p class="bottom-text">
+                Already have an account? <a href="/login/">Login</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

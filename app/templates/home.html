@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- ================== -->
+<!-- HERO BANNER CAROUSEL -->
+<!-- ================== -->
+<div id="homeBannerCarousel" class="carousel slide" data-bs-ride="carousel">
+
+    <div class="carousel-indicators">
+        {% for banner in banners %}
+        <button type="button"
+                data-bs-target="#homeBannerCarousel"
+                data-bs-slide-to="{{ forloop.counter0 }}"
+                class="{% if forloop.first %}active{% endif %}">
+        </button>
+        {% endfor %}
+    </div>
+
+ <div class="carousel-inner">
+    {% for banner in banners %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+        
+        {% if banner.product %}
+        <a href="{% url 'product_detail' banner.product.id %}">
+            <img src="{{ banner.image.url }}" 
+                 class="d-block w-100"
+                 style="height:350px; object-fit:cover;">
+        </a>
+        {% else %}
+        <img src="{{ banner.image.url }}" 
+             class="d-block w-100"
+             style="height:350px; object-fit:cover;">
+        {% endif %}
+
+    </div>
+    {% endfor %}
+</div>
+
+
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#homeBannerCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+
+<!-- ================== -->
+<!-- CATEGORY SECTION -->
+<!-- ================== -->
+<div style="width: 95%; margin: 40px auto; text-align:center;">
+    <h2 style="font-weight:700; margin-bottom:25px;">Shop by Category</h2>
+
+    <div style="
+        display: flex; 
+        justify-content: center; 
+        gap: 40px; 
+        flex-wrap: wrap;
+    ">
+        {% for c in categories %}
+        <a href="/products/?category={{ c.id }}" 
+           style="text-decoration:none; color:black; width:120px; display:flex; flex-direction:column; align-items:center;">
+
+            <div style="
+                width: 110px;
+                height: 110px;
+                border-radius: 50%;
+                overflow: hidden;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+                margin-bottom: 10px;
+                transition: transform .2s;
+            "
+            onmouseover="this.style.transform='scale(1.08)'"
+            onmouseout="this.style.transform='scale(1)'">
+
+                {% if c.image %}
+                <img src="{{ c.image.url }}" style="width:100%; height:100%; object-fit:cover;">
+                {% else %}
+                <img src="https://via.placeholder.com/150" style="width:100%; height:100%; object-fit:cover;">
+                {% endif %}
+            </div>
+
+            <span style="font-size:16px; font-weight:600;">{{ c.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+
+<!-- ================== -->
+<!-- FEATURED PRODUCTS SECTION -->
+<!-- ================== -->
+<div style="width:95%; margin:40px auto; text-align:center;">
+    <h2 style="font-weight:700; margin-bottom:25px;">Featured Products</h2>
+
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 20px;
+    ">
+
+      {% for product in products|slice:":8" %}
+
+<div style="
+    background:white;
+    padding:15px;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    text-align:center;
+">
+
+    <!-- CLICKABLE IMAGE -->
+    <a href="{% url 'product_detail' product.id %}" style="text-decoration:none; color:inherit;">
+        <div style="
+            width:100%;
+            height:180px;
+            overflow:hidden;
+            border-radius:8px;
+        ">
+            {% if product.image %}
+            <img src="{{ product.image.url }}"
+                style="
+                    width:100%;
+                    height:100%;
+                    object-fit:cover;
+                    transition: transform .35s ease;
+                "
+                onmouseover="this.style.transform='scale(1.10)'"
+                onmouseout="this.style.transform='scale(1)'">
+            {% else %}
+            <div style="width:100%; height:180px; background:#eee; border-radius:8px;"></div>
+            {% endif %}
+        </div>
+    </a>
+
+    <!-- NAME + PRICE -->
+    <h4 style="margin-top:12px; color:#3d2313;">{{ product.name }}</h4>
+    <p style="font-weight:700; color:#6b4226;">₹{{ product.price }}</p>
+
+</div>
+
+{% endfor %}
+
+
+    </div>
+</div>
+
+
+{% endblock %}

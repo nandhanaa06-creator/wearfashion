@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+    body {
+        background: var(--cream);
+    }
+
+    .cart-box {
+        width: 70%;
+        margin: 140px auto 60px;
+        background: white;
+        padding: 30px 40px;
+        border-radius: 16px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        border: 1px solid var(--beige);
+    }
+
+    .cart-box h2 {
+        font-weight: 800;
+        color: var(--darkbrown);
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    /* Cart item layout */
+    .cart-item {
+        display: flex;
+        align-items: center;
+        padding: 18px 0;
+        border-bottom: 1px solid #e8d8c8;
+    }
+
+    /* IMAGE */
+    .cart-item img {
+        width: 120px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        transition: transform .3s;
+    }
+    .cart-item img:hover {
+        transform: scale(1.07);
+    }
+
+    /* Product text */
+    .item-details {
+        margin-left: 20px;
+        color: var(--darkbrown);
+    }
+
+    .item-details h3 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .item-details p {
+        margin: 3px 0 10px;
+        color: #6b4226;
+        font-weight: 550;
+    }
+
+    /* Quantity buttons */
+    .qty-box {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 5px;
+    }
+
+    .qty-btn {
+        padding: 5px 12px;
+        background: var(--brown);
+        color: white;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s;
+    }
+    .qty-btn:hover {
+        background: var(--darkbrown);
+    }
+
+    .remove-btn {
+        margin-left: 15px;
+        color: #d9534f;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .remove-btn:hover {
+        color: #b52b27;
+    }
+
+    /* Price on right side */
+    .price-tag {
+        margin-left: auto;
+        font-weight: 700;
+        font-size: 20px;
+        color: var(--brown);
+    }
+
+    /* Bottom section */
+    .cart-bottom {
+        margin-top: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .cart-bottom h2 {
+        font-weight: 800;
+        color: var(--darkbrown);
+    }
+
+    /* Checkout button */
+    .checkout-btn {
+        background: var(--brown);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 18px;
+        font-weight: 600;
+        transition: .2s;
+    }
+    .checkout-btn:hover {
+        background: var(--darkbrown);
+        transform: translateY(-2px);
+    }
+
+</style>
+
+<div class="cart-box">
+
+    <h2>Your Cart</h2>
+
+    {% for item in cart_items %}
+    <div class="cart-item">
+
+        <!-- Image -->
+        <img src="{{ item.product.image.url }}">
+
+        <!-- Product details -->
+        <div class="item-details">
+            <h3>{{ item.product.name }}</h3>
+            <p>₹{{ item.product.price }}</p>
+
+            <!-- Quantity Controls -->
+            <div class="qty-box">
+
+                <a class="qty-btn" href="{% url 'cart_decrease' item.id %}">−</a>
+
+                <span style="font-weight:700;">{{ item.quantity }}</span>
+
+                <a class="qty-btn" href="{% url 'cart_add' item.product.id %}">+</a>
+
+                <a class="remove-btn" href="{% url 'cart_remove' item.id %}">Remove</a>
+
+            </div>
+        </div>
+
+        <!-- Total price for this item -->
+        <div class="price-tag">
+            ₹{{ item.total_price }}
+        </div>
+
+    </div>
+    {% empty %}
+    <p style="text-align:center; color:#6b4226; font-size:18px; padding:30px;">
+        Your cart is empty 🛒
+    </p>
+    {% endfor %}
+
+    <!-- Cart Total -->
+    {% if cart_items %}
+    <div class="cart-bottom">
+        <h2>Total: ₹{{ total }}</h2>
+        <a href="{% url 'checkout' %}" class="checkout-btn">Checkout</a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+/* Grid Layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+    padding: 20px 40px;
+    margin-top: 40px;
+}
+
+/* Category Card */
+.card {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    text-align: center;
+    border: 1px solid #e3c7a4;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Card hover - slight scale */
+.card:hover {
+    transform: translateY(-4px);
+}
+
+/* Image hover animation ONLY on the image */
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform .3s ease;
+}
+
+.card img:hover {
+    transform: scale(1.06);
+}
+
+/* Title */
+.card h3 {
+    margin-top: 12px;
+    color: #3d2313;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+/* Button */
+.card a {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 8px 16px;
+    background: #6b4226;
+    color: white !important;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+.card a:hover {
+    background: #3d2313;
+}
+
+</style>
+
+
+<h2 style="text-align: center; margin-top: 120px; font-weight: 800; color:#3d2313;">
+    Categories
+</h2>
+
+<div class="grid">
+
+    {% for c in categories %}
+<div class="card">
+
+    <!-- CLICKABLE IMAGE -->
+    <a href="/products/?category={{ c.id }}">
+        {% if c.image %}
+            <img src="{{ c.image.url }}" alt="{{ c.name }}">
+        {% else %}
+            <img src="https://via.placeholder.com/200x150?text={{ c.name }}" alt="">
+        {% endif %}
+    </a>
+
+    <h3>{{ c.name }}</h3>
+
+</div>
+{% endfor %}
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends 'admin_base.html' %}
+
+{% block admin_content %}
+
+<style>
+    :root {
+        --cream: #f5eee6;
+        --beige: #e3c7a4;
+        --golden: #b88956;
+        --brown: #6b4226;
+        --darkbrown: #3d2313;
+    }
+
+    body {
+        background: var(--cream);
+    }
+
+    .admin-title {
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 800;
+        font-size: 32px;
+        color: var(--darkbrown);
+    }
+
+    .admin-card-container {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+
+    .admin-card {
+        background: white;
+        padding: 25px;
+        border-radius: 14px;
+        width: 260px;
+        text-align: center;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+        border: 1px solid var(--beige);
+        transition: 0.25s ease-in-out;
+    }
+
+    .admin-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    }
+
+    .admin-card h3 a {
+        text-decoration: none;
+        color: var(--brown);
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    .admin-card h3 a:hover {
+        color: var(--darkbrown);
+    }
+
+    .admin-number {
+        font-size: 34px;
+        font-weight: 900;
+        margin-top: 10px;
+        color: var(--darkbrown);
+    }
+</style>
+
+<h2 class="admin-title">Admin Dashboard</h2>
+
+<div class="admin-card-container">
+
+    <!-- Total Users -->
+    <div class="admin-card">
+        <h3><a href="{% url 'admin_users' %}">Total Users</a></h3>
+        <div class="admin-number">{{ users }}</div>
+    </div>
+
+    <!-- Total Products -->
+    <div class="admin-card">
+        <h3><a href="{% url 'admin_products' %}">Total Products</a></h3>
+        <div class="admin-number">{{ products }}</div>
+    </div>
+
+    <!-- Total Orders -->
+    <div class="admin-card">
+        <h3><a href="{% url 'admin_orders' %}">Total Orders</a></h3>
+        <div class="admin-number">{{ orders }}</div>
+    </div>
+
+</div>
+
+{% endblock %}

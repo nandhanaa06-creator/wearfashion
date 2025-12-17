@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+/* Background in golden theme */
+.product-bg {
+    background: linear-gradient(135deg, #e3c7a4, #b88956);
+    min-height: 100vh;
+    padding: 130px 20px 60px;
+    display: flex;
+    justify-content: center;
+}
+
+/* SMALLER, PREMIUM CARD */
+.product-card {
+    width: 75%;
+    max-width: 850px;   /* MUCH SMALLER NOW */
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.15);
+    display: flex;
+    gap: 30px;
+    animation: fadeIn .5s ease-in-out;
+}
+
+/* ENTRY ANIMATION */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* IMAGE BOX – also smaller */
+.product-img-box {
+    flex: 1;
+}
+
+.product-img {
+    width: 100%;
+    max-width: 330px; /* reduced */
+    border-radius: 12px;
+    object-fit: cover;
+    transition: transform .3s ease;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+}
+
+.product-img:hover {
+    transform: scale(1.06);
+}
+
+/* TEXT SECTION */
+.info {
+    flex: 1.2;
+    padding-right: 10px;
+}
+
+.info h1 {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 5px;
+    color: #3d2313;
+}
+
+.info h3 {
+    font-size: 24px;
+    color: #6b4226;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* STOCK BADGES */
+.stock-badge {
+    padding: 6px 14px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+.stock-ok {
+    background: #e3f8e3;
+    color: #007f00;
+}
+
+.stock-low {
+    background: #fff3cd;
+    color: #b36b00;
+}
+
+.stock-out {
+    background: #ffe1e1;
+    color: #b80000;
+}
+
+/* DESCRIPTION BOX */
+.description-box {
+    margin-top: 10px;
+    padding: 12px 18px;
+    border-left: 4px solid #b88956;
+    background: #fdf6ef;
+    border-radius: 8px;
+}
+
+.description-box p {
+    color: #4d2f18;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+/* ADD TO CART BUTTON */
+.btn-cart {
+    background: #6b4226;
+    border: none;
+    padding: 12px;
+    width: 200px;
+    border-radius: 10px;
+    font-size: 17px;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.btn-cart:hover {
+    background: #3d2313;
+    transform: translateY(-2px);
+}
+
+/* BACK BUTTON */
+.back-btn {
+    position: absolute;
+    top: 90px;
+    left: 20px;
+    background: #6b4226 !important;
+    border: none;
+}
+.back-btn:hover {
+    background: #3d2313 !important;
+}
+
+</style>
+
+<!-- BACK BUTTON -->
+<a onclick="history.back()" class="btn btn-primary back-btn">⬅ Back</a>
+
+<div class="product-bg">
+    <div class="product-card">
+
+        <!-- PRODUCT IMAGE -->
+        <div class="product-img-box">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="product-img">
+            {% else %}
+                <img src="https://via.placeholder.com/300" class="product-img">
+            {% endif %}
+        </div>
+
+        <!-- PRODUCT INFORMATION -->
+        <div class="info">
+
+            <h1>{{ product.name }}</h1>
+            <h3>₹{{ product.price }}</h3>
+
+            <!-- STOCK BADGES -->
+            {% if product.stock > 0 %}
+                {% if product.stock < 20 %}
+                    <span class="stock-badge stock-low">Low Stock: {{ product.stock }}</span>
+                {% else %}
+                    <span class="stock-badge stock-ok">In Stock: {{ product.stock }}</span>
+                {% endif %}
+            {% else %}
+                <span class="stock-badge stock-out">Out of Stock</span>
+            {% endif %}
+
+            <!-- DESCRIPTION -->
+            <div class="description-box">
+                <h5 style="font-weight:700;">Description:</h5>
+                <p>{{ product.description }}</p>
+            </div>
+
+            <!-- ADD TO CART -->
+            {% if product.stock > 0 %}
+                <a href="{% url 'cart_add' product.id %}" class="btn btn-danger btn-cart">
+                    Add to Cart
+                </a>
+            {% else %}
+                <button class="btn btn-secondary btn-cart" disabled>
+                    Out of Stock
+                </button>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

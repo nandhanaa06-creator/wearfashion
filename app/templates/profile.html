@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+body {
+    background: var(--cream);
+}
+
+/* PROFILE CARD */
+.profile-box {
+    width: 60%;
+    margin: 150px auto 50px;
+    background: white;
+    padding: 35px 40px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+    text-align: center;
+    border: 1px solid var(--beige);
+}
+
+/* PROFILE PHOTO */
+.profile-photo {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #f2e7db;
+    border: 3px solid var(--golden);
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* USERNAME */
+.profile-box h2 {
+    font-size: 30px;
+    font-weight: 800;
+    color: var(--darkbrown);
+    margin: 5px 0;
+}
+
+/* Joined date */
+.profile-meta {
+    color: #6b4226;
+    background: #faefe2;
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    font-size: 15px;
+    border: 1px solid var(--beige);
+}
+
+/* DETAILS SECTION */
+.profile-info {
+    text-align: left;
+    margin: 20px auto;
+    width: 70%;
+    font-size: 17px;
+    color: #3d2313;
+}
+
+.profile-info p {
+    margin: 10px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ead7c3;
+}
+
+/* BUTTONS WRAPPER */
+.btns {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+}
+
+/* COMMON BUTTON STYLE */
+.btn-custom {
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s;
+    color: white;
+}
+
+/* BUTTON COLORS (THEME) */
+.edit-btn {
+    background: var(--brown);
+}
+.edit-btn:hover {
+    background: var(--darkbrown);
+}
+
+.order-btn {
+    background: #b88956;
+}
+.order-btn:hover {
+    background: #946c3f;
+}
+
+.logout-btn {
+    background: #d9534f;
+}
+.logout-btn:hover {
+    background: #b52b27;
+}
+
+</style>
+
+<div class="profile-box">
+
+    <!-- Profile Image -->
+    {% if request.user.profile.profile_image %}
+        <img src="{{ request.user.profile.profile_image.url }}" class="profile-photo">
+    {% else %}
+        <img src="https://via.placeholder.com/120" class="profile-photo">
+    {% endif %}
+
+    <!-- Username -->
+    <h2>{{ request.user.username }}</h2>
+
+    <!-- User joined date -->
+    <div class="profile-meta">
+        Joined: {{ request.user.date_joined|date:"M d, Y" }}
+    </div>
+
+    <!-- User Information -->
+    <div class="profile-info">
+        <p><strong>Email:</strong> {{ request.user.email }}</p>
+        <p><strong>Last Login:</strong> {{ request.user.last_login|date:"M d, Y H:i" }}</p>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="btns">
+        <a href="{% url 'edit_profile' %}" class="btn-custom edit-btn">Edit Profile</a>
+        <a href="{% url 'order_history' %}" class="btn-custom order-btn">Order History</a>
+        <a href="{% url 'logout' %}" class="btn-custom logout-btn">Logout</a>
+    </div>
+
+</div>
+
+{% endblock %}
