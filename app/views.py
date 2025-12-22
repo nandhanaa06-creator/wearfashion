@@ -31,7 +31,7 @@ def home(request):
 def search(request):
     query = request.GET.get('q', '')
     results = Product.objects.filter(name__icontains=query)
-    return render(request, 'search_results.html', {'results': results, 'query': query})
+    return render(request, 'search_result.html', {'results': results, 'query': query})
 
 
 
