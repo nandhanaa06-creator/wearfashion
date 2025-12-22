@@ -6,9 +6,32 @@
         background: var(--cream);
     }
 
+    /* ============================= */
+    /*         BACK BUTTON           */
+    /* ============================= */
+    .back-btn {
+        display: inline-block;
+        margin: 120px auto 15px 10%;
+        padding: 8px 16px;
+        background: #f5e6d3;
+        color: #5a3a1a;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        border: 1px solid var(--beige);
+        transition: 0.2s;
+    }
+
+    .back-btn:hover {
+        background: #e6d1b8;
+    }
+
+    /* ============================= */
+    /*          CART BOX             */
+    /* ============================= */
     .cart-box {
         width: 70%;
-        margin: 140px auto 60px;
+        margin: 20px auto 60px;
         background: white;
         padding: 30px 40px;
         border-radius: 16px;
@@ -23,12 +46,15 @@
         text-align: center;
     }
 
-    /* Cart item layout */
+    /* ============================= */
+    /*         CART ITEM             */
+    /* ============================= */
     .cart-item {
         display: flex;
         align-items: center;
         padding: 18px 0;
         border-bottom: 1px solid #e8d8c8;
+        gap: 20px;
     }
 
     /* IMAGE */
@@ -46,8 +72,8 @@
 
     /* Product text */
     .item-details {
-        margin-left: 20px;
         color: var(--darkbrown);
+        flex: 1;
     }
 
     .item-details h3 {
@@ -67,7 +93,7 @@
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-top: 5px;
+        flex-wrap: wrap;
     }
 
     .qty-btn {
@@ -84,7 +110,6 @@
     }
 
     .remove-btn {
-        margin-left: 15px;
         color: #d9534f;
         font-weight: 600;
         text-decoration: none;
@@ -93,20 +118,24 @@
         color: #b52b27;
     }
 
-    /* Price on right side */
+    /* Price */
     .price-tag {
-        margin-left: auto;
         font-weight: 700;
         font-size: 20px;
         color: var(--brown);
+        white-space: nowrap;
     }
 
-    /* Bottom section */
+    /* ============================= */
+    /*        CART BOTTOM            */
+    /* ============================= */
     .cart-bottom {
         margin-top: 25px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
     }
 
     .cart-bottom h2 {
@@ -130,8 +159,35 @@
         transform: translateY(-2px);
     }
 
+    /* ============================= */
+    /*        RESPONSIVE             */
+    /* ============================= */
+    @media (max-width: 768px) {
+        .cart-box {
+            width: 92%;
+            padding: 25px;
+        }
+
+        .cart-item {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .price-tag {
+            align-self: flex-end;
+        }
+
+        .back-btn {
+            margin-left: 5%;
+        }
+    }
+
 </style>
 
+<!-- BACK BUTTON -->
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<!-- CART BOX -->
 <div class="cart-box">
 
     <h2>Your Cart</h2>
@@ -161,7 +217,7 @@
             </div>
         </div>
 
-        <!-- Total price for this item -->
+        <!-- Total price -->
         <div class="price-tag">
             ₹{{ item.total_price }}
         </div>
@@ -173,7 +229,6 @@
     </p>
     {% endfor %}
 
-    <!-- Cart Total -->
     {% if cart_items %}
     <div class="cart-bottom">
         <h2>Total: ₹{{ total }}</h2>

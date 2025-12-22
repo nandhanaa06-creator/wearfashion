@@ -15,6 +15,8 @@ urlpatterns = [
     path('cart/add/<int:product_id>/', views.add_to_cart, name='cart_add'),
     path('cart/decrease/<int:item_id>/', views.decrease_quantity, name='cart_decrease'),
     path('cart/remove/<int:item_id>/', views.remove_from_cart, name='cart_remove'),
+    path('ajax-add-to-cart/<int:product_id>/', views.ajax_add_to_cart, name='ajax_add_to_cart'),
+
     path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('admin-users/', views.admin_users, name='admin_users'),
     path("admin-orders/", views.admin_orders, name="admin_orders"),

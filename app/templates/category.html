@@ -2,96 +2,177 @@
 {% block content %}
 
 <style>
+/* ============================= */
+/*        PAGE HEADING           */
+/* ============================= */
+.page-title {
+    margin: 120px 0 10px;
+    text-align: center;
+    font-size: 36px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    color: #3d2313;
+}
 
-/* Grid Layout */
+.page-subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: #7a5235;
+    margin-bottom: 25px;
+}
+
+/* ============================= */
+/*            GRID               */
+/* ============================= */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 25px;
-    padding: 20px 40px;
-    margin-top: 40px;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 18px;                     /* ✅ REDUCED GAP */
+    padding: 20px 30px 40px;       /* ✅ REDUCED PADDING */
 }
 
-/* Category Card */
+/* ============================= */
+/*            CARD               */
+/* ============================= */
 .card {
-    background: white;
-    padding: 18px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    text-align: center;
-    border: 1px solid #e3c7a4;
-    transition: transform 0.2s ease-in-out;
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14);
+    border: 1px solid #ead1b2;
+    transition: all .35s ease;
 }
 
-/* Card hover - slight scale */
+/* Softer hover */
 .card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) scale(1.01); /* ✅ LESS LIFT */
+    box-shadow: 0 18px 35px rgba(0,0,0,0.18);
 }
 
-/* Image hover animation ONLY on the image */
-.card img {
+/* ============================= */
+/*         IMAGE SECTION         */
+/* ============================= */
+.img-box {
+    position: relative;
+    height: 200px;                 /* ✅ SLIGHTLY SHORTER */
+    overflow: hidden;
+}
+
+.img-box img {
     width: 100%;
-    height: 150px;
+    height: 100%;
     object-fit: cover;
-    border-radius: 8px;
-    transition: transform .3s ease;
+    transition: transform .45s ease;
 }
 
-.card img:hover {
-    transform: scale(1.06);
+.card:hover img {
+    transform: scale(1.12);
 }
 
-/* Title */
-.card h3 {
-    margin-top: 12px;
-    color: #3d2313;
+/* DARK GRADIENT */
+.img-box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.15),
+        transparent
+    );
+}
+
+/* ============================= */
+/*        CATEGORY NAME          */
+/* ============================= */
+.category-name {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: .8px;
+    z-index: 2;
+    text-shadow: 0 3px 8px rgba(0,0,0,.6);
+}
+
+/* ============================= */
+/*         CARD FOOTER           */
+/* ============================= */
+.card-body {
+    padding: 14px;                 /* ✅ LESS HEIGHT */
+    text-align: center;
+}
+
+.card-body a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 22px;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #6b4226, #3d2313);
+    color: white;
     font-weight: 700;
-    font-size: 18px;
-}
-
-/* Button */
-.card a {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 8px 16px;
-    background: #6b4226;
-    color: white !important;
+    font-size: 14px;
     text-decoration: none;
-    border-radius: 6px;
-    font-weight: 600;
-    transition: 0.2s;
+    transition: .25s;
 }
 
-.card a:hover {
-    background: #3d2313;
+.card-body a:hover {
+    letter-spacing: .5px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.3);
 }
 
+/* ============================= */
+/*          MOBILE               */
+/* ============================= */
+@media(max-width:768px){
+    .grid {
+        padding: 15px;
+        gap: 14px;
+    }
+    .page-title {
+        font-size: 28px;
+    }
+}
 </style>
 
+<!-- ============================= -->
+<!--          CONTENT              -->
+<!-- ============================= -->
 
-<h2 style="text-align: center; margin-top: 120px; font-weight: 800; color:#3d2313;">
-    Categories
-</h2>
+<h1 class="page-title">Shop by Category</h1>
+<p class="page-subtitle">Find styles that match your vibe</p>
 
 <div class="grid">
 
     {% for c in categories %}
-<div class="card">
+    <div class="card">
 
-    <!-- CLICKABLE IMAGE -->
-    <a href="/products/?category={{ c.id }}">
-        {% if c.image %}
-            <img src="{{ c.image.url }}" alt="{{ c.name }}">
-        {% else %}
-            <img src="https://via.placeholder.com/200x150?text={{ c.name }}" alt="">
-        {% endif %}
-    </a>
+        <!-- IMAGE -->
+        <a href="/products/?category={{ c.id }}">
+            <div class="img-box">
+                {% if c.image %}
+                    <img src="{{ c.image.url }}" alt="{{ c.name }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x300?text={{ c.name }}">
+                {% endif %}
+                <div class="category-name">{{ c.name }}</div>
+            </div>
+        </a>
 
-    <h3>{{ c.name }}</h3>
+        <!-- BUTTON -->
+        <div class="card-body">
+            <a href="/products/?category={{ c.id }}">
+                View Products →
+            </a>
+        </div>
 
-</div>
-{% endfor %}
-
+    </div>
+    {% endfor %}
 
 </div>
 

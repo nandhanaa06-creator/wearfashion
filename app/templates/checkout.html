@@ -9,13 +9,13 @@
 
     .checkout-container {
         width: 80%;
-        margin: 40px auto;
+        margin: 40px auto 80px;
     }
 
     .checkout-title {
         text-align: center;
         font-size: 28px;
-        font-weight: bold;
+        font-weight: 700;
         margin-bottom: 25px;
         color: #333;
     }
@@ -40,7 +40,7 @@
 
     .form-group label {
         font-weight: 600;
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         display: block;
         color: #444;
     }
@@ -63,19 +63,20 @@
 
     .btn-place-order {
         width: 100%;
-        background: #0d6efd;
+        background: #6b4226;
         color: white;
-        padding: 12px;
+        padding: 13px;
         border-radius: 8px;
         border: none;
         font-size: 17px;
         margin-top: 10px;
         cursor: pointer;
+        font-weight: 600;
         transition: 0.2s;
     }
 
     .btn-place-order:hover {
-        background: #0056d2;
+        background: #4e2f1c;
     }
 
     /* RIGHT SUMMARY */
@@ -89,32 +90,56 @@
 
     .summary-title {
         font-size: 22px;
-        margin-bottom: 15px;
+        margin-bottom: 18px;
         font-weight: 600;
         border-bottom: 2px solid #eee;
         padding-bottom: 8px;
     }
 
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        margin: 12px 0;
+    /* SIMPLE PROFESSIONAL TABLE */
+    .summary-table {
+        width: 100%;
+        border-collapse: collapse;
         font-size: 16px;
     }
 
+    .summary-table td {
+        padding: 10px 0;
+        color: #333;
+    }
+
+    .summary-table td:last-child {
+        text-align: right;
+        font-weight: 600;
+    }
+
+    .summary-total td {
+        border-top: 2px solid #e0e0e0;
+        padding-top: 14px;
+        font-size: 18px;
+        font-weight: 800;
+        color: #6b4226;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+        }
+    }
 </style>
 
 <div class="checkout-container">
 
     <h2 class="checkout-title">Checkout</h2>
 
-    <div class="checkout-Agrid">
+    <div class="checkout-grid">
 
         <!-- LEFT SIDE -->
         <div class="checkout-left">
             <form method="POST">
                 {% csrf_token %}
-                
+
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="full_name" required>
@@ -127,10 +152,12 @@
 
                 <div class="form-group">
                     <label>Shipping Address</label>
-                    <textarea name="address" required rows="5"></textarea>
+                    <textarea name="address" rows="5" required></textarea>
                 </div>
 
-                <button class="btn-place-order">Place Order</button>
+                <button type="submit" class="btn-place-order">
+                    Place Order
+                </button>
             </form>
         </div>
 
@@ -138,16 +165,24 @@
         <div class="checkout-right">
             <h3 class="summary-title">Order Summary</h3>
 
-            <div class="summary-row">
-                <span>Items:</span>
-                <span>{{ cart_items.count }}</span>
-            </div>
-
-            <div class="summary-row">
-                <span>Total Amount:</span>
-                <span>₹{{ total }}</span>
-            </div>
-
+            <table class="summary-table">
+                <tr>
+                    <td>Items</td>
+                    <td>{{ cart_items.count }}</td>
+                </tr>
+                <tr>
+                    <td>Subtotal</td>
+                    <td>₹{{ total }}</td>
+                </tr>
+                <tr>
+                    <td>Shipping</td>
+                    <td>Free</td>
+                </tr>
+                <tr class="summary-total">
+                    <td>Total</td>
+                    <td>₹{{ total }}</td>
+                </tr>
+            </table>
         </div>
 
     </div>

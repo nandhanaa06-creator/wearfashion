@@ -3,43 +3,62 @@
 
 <style>
 
-/* GRID – no gaps between product cards */
+/* ============================= */
+/*           GRID                */
+/* ============================= */
 .grid {
-    display: grid;
+    display: grid; /* ✅ MISSING FIX */
     grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 0px !important;
+    gap: 0;
     padding: 0;
     width: 95%;
-    margin: 20px auto;
+    margin: 20px auto 60px;
 }
 
-/* PRODUCT CARD – no hover, no movement */
+/* ============================= */
+/*         PRODUCT CARD          */
+/* ============================= */
 .card {
     background: white;
     border: 1px solid #e0e0e0;
-    border-radius: 0px !important;   /* no curvy edges */
     padding: 10px 10px 15px;
     text-align: center;
-    box-shadow: none !important;
-    transition: none !important;      /* card will not move */
+    position: relative; /* required for badge */
 }
 
-/* REMOVE all card hover effects */
+/* No card hover */
 .card:hover {
-    transform: none !important;
-    box-shadow: none !important;
+    transform: none;
+    box-shadow: none;
 }
 
-/* IMAGE WRAPPER */
+/* ============================= */
+/*         TRENDING BADGE        */
+/* ============================= */
+.trending-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #ff3d3d;
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    z-index: 5;
+}
+
+/* ============================= */
+/*         IMAGE BOX             */
+/* ============================= */
 .img-box {
     width: 100%;
     height: 210px;
     overflow: hidden;
-    border-radius: 0px !important;
     border-bottom: 1px solid #ddd;
 }
 
-/* IMAGE – only image zooms */
+/* Image zoom only */
 .img-box img {
     width: 100%;
     height: 100%;
@@ -48,63 +67,72 @@
 }
 
 .img-box:hover img {
-    transform: scale(1.10); /* only image moves */
+    transform: scale(1.1);
 }
 
-/* PRODUCT NAME */
+/* ============================= */
+/*         PRODUCT TEXT          */
+/* ============================= */
 .card h3 {
     margin-top: 12px;
-    font-size: 17px;
+    font-size: 16px;
     color: #3d2313;
+    font-weight: 600;
 }
 
-/* PRICE */
 .card p {
     margin-top: 5px;
     color: #6b4226;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 15px;
 }
 
-/* VIEW BUTTON */
-.card a {
-    background: #6b4226;
-    border: none;
-    width: 100%;
-    margin-top: 10px;
-    border-radius: 4px;
-}
-
-/* Hide stock completely */
+/* Hide stock */
 .stock-info {
     display: none;
 }
 
+/* ============================= */
+/*        RESPONSIVE             */
+/* ============================= */
+@media (max-width: 768px) {
+    .grid {
+        width: 100%;
+    }
+}
+
 </style>
 
-
-<h1 style="text-align: center; margin-bottom: 25px;">Products</h1>
+<h1 style="text-align: center; margin: 30px 0; font-weight: 800;">
+    Products
+</h1>
 
 <div class="grid">
     {% for product in products %}
     <div class="card">
-<!-- IMAGE CLICKABLE TO PRODUCT DETAIL -->
-<a href="{% url 'product_detail' product.id %}">
-    <div class="img-box">
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        {% else %}
-            <div style="width:100%; height:210px; background:#eee; display:flex; justify-content:center; align-items:center;">
-                No Image
-            </div>
+
+        <!-- TRENDING (TEMP LOGIC) -->
+        {% if forloop.counter <= 4 %}
+            <div class="trending-badge">Trending</div>
         {% endif %}
-    </div>
-</a>
+
+        <!-- IMAGE -->
+        <a href="{% url 'product_detail' product.id %}">
+            <div class="img-box">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <div style="width:100%; height:210px; background:#eee; display:flex; justify-content:center; align-items:center;">
+                        No Image
+                    </div>
+                {% endif %}
+            </div>
+        </a>
 
         <!-- DETAILS -->
         <h3>{{ product.name }}</h3>
         <p>₹{{ product.price }}</p>
 
-        
         <div class="stock-info">{{ product.stock }}</div>
 
     </div>

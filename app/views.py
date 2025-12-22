@@ -206,6 +206,30 @@ def checkout(request):
         'total': total,
     })
 
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+
+@login_required
+def ajax_add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+
+    cart_item, created = CartItem.objects.get_or_create(
+        user=request.user,
+        product=product
+    )
+
+    if not created:
+        cart_item.quantity += 1
+    cart_item.save()
+
+    # Count total items (not quantity)
+    cart_count = CartItem.objects.filter(user=request.user).count()
+
+    return JsonResponse({
+        'success': True,
+        'cart_count': cart_count
+    })
+
 
 @login_required
 def profile_view(request):

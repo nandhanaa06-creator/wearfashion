@@ -7,10 +7,32 @@ body {
     background: var(--cream);
 }
 
-/* PROFILE CARD */
+/* ============================= */
+/*         BACK BUTTON           */
+/* ============================= */
+.back-btn {
+    display: inline-block;
+    margin: 120px auto 15px 10%;
+    padding: 8px 16px;
+    background: #f5e6d3;
+    color: #5a3a1a;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid var(--beige);
+    transition: 0.2s;
+}
+
+.back-btn:hover {
+    background: #e6d1b8;
+}
+
+/* ============================= */
+/*        PROFILE CARD           */
+/* ============================= */
 .profile-box {
     width: 60%;
-    margin: 150px auto 50px;
+    margin: 20px auto 50px;
     background: white;
     padding: 35px 40px;
     border-radius: 18px;
@@ -19,7 +41,9 @@ body {
     border: 1px solid var(--beige);
 }
 
-/* PROFILE PHOTO */
+/* ============================= */
+/*        PROFILE PHOTO          */
+/* ============================= */
 .profile-photo {
     width: 130px;
     height: 130px;
@@ -31,7 +55,9 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* USERNAME */
+/* ============================= */
+/*          USERNAME             */
+/* ============================= */
 .profile-box h2 {
     font-size: 30px;
     font-weight: 800;
@@ -39,7 +65,9 @@ body {
     margin: 5px 0;
 }
 
-/* Joined date */
+/* ============================= */
+/*         JOINED DATE           */
+/* ============================= */
 .profile-meta {
     color: #6b4226;
     background: #faefe2;
@@ -51,7 +79,9 @@ body {
     border: 1px solid var(--beige);
 }
 
-/* DETAILS SECTION */
+/* ============================= */
+/*        USER DETAILS           */
+/* ============================= */
 .profile-info {
     text-align: left;
     margin: 20px auto;
@@ -66,12 +96,15 @@ body {
     border-bottom: 1px solid #ead7c3;
 }
 
-/* BUTTONS WRAPPER */
+/* ============================= */
+/*         BUTTON GROUP          */
+/* ============================= */
 .btns {
     margin-top: 30px;
     display: flex;
     justify-content: center;
     gap: 18px;
+    flex-wrap: wrap;
 }
 
 /* COMMON BUTTON STYLE */
@@ -85,7 +118,7 @@ body {
     color: white;
 }
 
-/* BUTTON COLORS (THEME) */
+/* BUTTON COLORS */
 .edit-btn {
     background: var(--brown);
 }
@@ -107,8 +140,30 @@ body {
     background: #b52b27;
 }
 
+/* ============================= */
+/*         RESPONSIVE            */
+/* ============================= */
+@media (max-width: 768px) {
+    .profile-box {
+        width: 90%;
+        padding: 25px;
+    }
+
+    .profile-info {
+        width: 100%;
+    }
+
+    .back-btn {
+        margin-left: 5%;
+    }
+}
+
 </style>
 
+<!-- BACK BUTTON -->
+<a href="javascript:history.back()" class="back-btn">← Back</a>
+
+<!-- PROFILE CARD -->
 <div class="profile-box">
 
     <!-- Profile Image -->
@@ -121,12 +176,12 @@ body {
     <!-- Username -->
     <h2>{{ request.user.username }}</h2>
 
-    <!-- User joined date -->
+    <!-- Joined Date -->
     <div class="profile-meta">
         Joined: {{ request.user.date_joined|date:"M d, Y" }}
     </div>
 
-    <!-- User Information -->
+    <!-- User Info -->
     <div class="profile-info">
         <p><strong>Email:</strong> {{ request.user.email }}</p>
         <p><strong>Last Login:</strong> {{ request.user.last_login|date:"M d, Y H:i" }}</p>
