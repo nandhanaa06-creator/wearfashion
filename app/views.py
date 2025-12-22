@@ -28,10 +28,25 @@ def home(request):
 
     
 
+from django.db.models import Q
+
 def search(request):
     query = request.GET.get('q', '')
-    results = Product.objects.filter(name__icontains=query)
-    return render(request, 'search_result.html', {'results': results, 'query': query})
+    
+    results = Product.objects.filter(
+        Q(name__icontains=query) |
+        Q(category__name__icontains=query)
+    )
+
+    return render(
+        request,
+        'search_result.html',
+        {
+            'results': results,
+            'query': query
+        }
+    )
+
 
 
 
