@@ -29,7 +29,6 @@ def home(request):
     
 
 from django.db.models import Q
-
 def search(request):
     query = request.GET.get('q', '')
     
