@@ -17,7 +17,7 @@ SECRET_KEY = os.environ.get(
     "unsafe-secret-key-for-local-only"
 )
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*", ".onrender.com"]
 
@@ -131,8 +131,7 @@ STATICFILES_STORAGE = (
 # ==============================
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # ==============================
 # EMAIL CONFIG (SAFE)
 # ==============================
